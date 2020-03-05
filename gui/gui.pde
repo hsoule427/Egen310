@@ -5,10 +5,22 @@ String val;
 String keyVal;
 boolean firstContact = false;
 
+void connect_serial() {
+  String portName = Serial.list()[3];
+  myPort = new Serial(this, portName, 9600);
+  myPort.bufferUntil('\n');
+}
+
+
+void draw_gui() {
+
+}
+
 void setup() {
   size(750, 500);
   background(0, 20, 50);
   rectMode(CENTER); // CENTER MODE specifies center coord, width, height
+  
   //rect args: center x, center y, width, height
   rect(175, 200, 50, 50); // UP / W
   rect(125, 250, 50, 50); // LEFT / A
@@ -23,39 +35,20 @@ void setup() {
   text('A', 115, 260);
   text('D', 210, 260);
   
-  for (int i = 0; i < Serial.list().length; i++) {
-    println(Serial.list()[i]);
-  }
-  
-  String portName = Serial.list()[4];
-  myPort = new Serial(this, portName, 9600);
-  myPort.bufferUntil('\n');
-  
 }
 
 void draw() {
-  
-}
-
-void serialEvent(Serial myPort) {
-  val = myPort.readStringUntil('\n');
-  if (val != null) {
-    val = trim(val);
-    println(val);
-  }
-  
-  if (firstContact == false) {
-    if (val.equals('C')) {
-      myPort.clear();
-      firstContact = true;
-      myPort.write('C');
-      println("contact");
+  if (myPort.available() > 0) {
+    val = myPort.readStringUntil('\n');
+    if (val != null) {
+      val = trim(val);
+      println(val);
     }
   }
-  else {
-    println(val);
-    if (keyPressed) {
-      myPort.write(key);
-    }
+  
+  if (keyPressed == true) {
+    //myPort.write(key);
+    
   }
+  
 }
