@@ -1,6 +1,9 @@
 import processing.serial.*;
 
 Serial myPort;
+String val;
+String keyVal;
+boolean firstContact = false;
 
 void setup() {
   size(750, 500);
@@ -17,9 +20,42 @@ void setup() {
   fill(0, 102, 153);
   text('W', 162, 212);
   text('S', 168, 260);
-  text('A', 
+  text('A', 115, 260);
+  text('D', 210, 260);
+  
+  for (int i = 0; i < Serial.list().length; i++) {
+    println(Serial.list()[i]);
+  }
+  
+  String portName = Serial.list()[4];
+  myPort = new Serial(this, portName, 9600);
+  myPort.bufferUntil('\n');
+  
 }
 
 void draw() {
   
+}
+
+void serialEvent(Serial myPort) {
+  val = myPort.readStringUntil('\n');
+  if (val != null) {
+    val = trim(val);
+    println(val);
+  }
+  
+  if (firstContact == false) {
+    if (val.equals('C')) {
+      myPort.clear();
+      firstContact = true;
+      myPort.write('C');
+      println("contact");
+    }
+  }
+  else {
+    println(val);
+    if (keyPressed) {
+      myPort.write(key);
+    }
+  }
 }
