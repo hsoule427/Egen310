@@ -9,7 +9,9 @@ void loop() {
   // put your main code here, to run repeatedly:
   if (Serial.available()) {
     val = Serial.read();
-    Serial.println("You pushed " + val);
+    if (val != null) {
+      Serial.println("You pushed " + val);
+    }
   }
 
 }

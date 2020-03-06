@@ -21,21 +21,25 @@ void setup() {
                   .setText("Current Speed: " + speed)
                   .setColor(color(255,0,0));
   
-  forwardButton = cp5.addButton("Foward: W")
+  forwardButton = cp5.addButton("forward")
+                     .setCaptionLabel("Foward: W")
                      .setPosition(100, 70)
                      .setSize(100, 50);
   
-  backButton = cp5.addButton("Back: S")
-                     .setPosition(100, 140)
-                     .setSize(100, 50);
+  backButton = cp5.addButton("backward")
+                  .setCaptionLabel("Backward: S")
+                  .setPosition(100, 140)
+                  .setSize(100, 50);
                      
-  leftButton = cp5.addButton("Left: A")
-                     .setPosition(100, 210)
-                     .setSize(100, 50);
+  leftButton = cp5.addButton("left")
+                  .setCaptionLabel("Left: A")
+                  .setPosition(100, 210)
+                  .setSize(100, 50);
 
-  rightButton = cp5.addButton("Right: D")
-                     .setPosition(100, 280)
-                     .setSize(100, 50);
+  rightButton = cp5.addButton("right")
+                   .setCaptionLabel("Right: D")
+                   .setPosition(100, 280)
+                   .setSize(100, 50);
 }
 
 void draw() {
@@ -49,9 +53,11 @@ void draw() {
 void processKeyPress(char keyVal) {
   if (keyVal == 'w') {
     println("w was pushed");
+    forward();
   }
   else if (keyVal == 's') {
     println("s was pushed");
+    backward();
   }
   else if (keyVal == 'a') {
     println("a was pushed");
@@ -63,15 +69,35 @@ void processKeyPress(char keyVal) {
 
 void keyReleased() {
   if (key == 'w' || key == 'W') {
-    speed += 1;
-    speedLabel.setText("Current Speed: " + speed);
+    //speed += 1;
+    //speedLabel.setText("Current Speed: " + speed);
   }
   else if (key == 's' || key == 'S') {
-    speed -=1;
-    speedLabel.setText("Current Speed: " + speed);
+    //speed -= 1;
+    //speedLabel.setText("Current Speed: " + speed);
   }
   else if (key == 'a' || key == 'A') {
   }
   else if (key == 'd' || key == 'D') {
   }
+}
+
+void forward() {
+  println("You pushed the forward button.");
+  speed += 1;
+  speedLabel.setText("Current Speed: " + speed);
+}
+
+void backward() {
+  println("You pushed the backward button.");
+  speed -= 1;
+  speedLabel.setText("Current Speed: " + speed);
+}
+
+void left() {
+  println("You pushed the left button.");
+}
+
+void right() {
+
 }
