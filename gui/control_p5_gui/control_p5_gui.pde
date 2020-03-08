@@ -1,5 +1,8 @@
 import controlP5.*;
+import processing.serial.*;
 
+Serial myPort;
+String val;
 ControlP5 cp5;
 String speedText = "0";
 int speed = 0;
@@ -11,9 +14,13 @@ Button rightButton;
 
 
 void setup() {
-  size(300, 400);
-  //background();
+  // Establish Bluetooth connection
+  String portName = Serial.list()[3];
+  myPort = new Serial(this, portName, 9600);
+  myPort.bufferUntil('\n');
   
+  // Set up gui
+  size(300, 400);
   cp5 = new ControlP5(this);
   speedLabel = cp5.addTextlabel("speedDisplay")
                   .setPosition(100, 50)
@@ -43,11 +50,14 @@ void setup() {
 }
 
 void draw() {
+  // Redraw background so label updates will work
   background(150, 0, 150);
-  //if (keyPressed) {
-  //  //processKeyPress(key);
-  //  keyReleased();
-  //}
+  
+  val = myPort.readStringUntil('\n');
+  if (val != null) {
+    val = trim(val);
+    println(val);
+  }
   
 }
 
@@ -68,37 +78,35 @@ void processKeyPress(char keyVal) {
 
 void keyReleased() {
   if (key == 'w' || key == 'W') {
-    //speed += 1;
-    //speedLabel.setText("Current Speed: " + speed);
     forward();
   }
   else if (key == 's' || key == 'S') {
     backward();
-    //speed -= 1;
-    //speedLabel.setText("Current Speed: " + speed);
   }
   else if (key == 'a' || key == 'A') {
+    left();
   }
   else if (key == 'd' || key == 'D') {
+    right();
   }
 }
 
 void forward() {
-  println("You pushed the forward button.");
   speed += 1;
   speedLabel.setText("Current Speed: " + speed);
+  myPort.write(key);
 }
 
 void backward() {
-  println("You pushed the backward button.");
   speed -= 1;
   speedLabel.setText("Current Speed: " + speed);
+  myPort.write(key);
 }
 
 void left() {
-  println("You pushed the left button.");
+  myPort.write(key);
 }
 
 void right() {
-
+  myPort.write(key);
 }
