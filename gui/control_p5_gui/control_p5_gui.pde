@@ -44,19 +44,18 @@ void setup() {
 
 void draw() {
   background(150, 0, 150);
-  if (keyPressed) {
-    processKeyPress(key);
-  }
+  //if (keyPressed) {
+  //  //processKeyPress(key);
+  //  keyReleased();
+  //}
   
 }
 
 void processKeyPress(char keyVal) {
   if (keyVal == 'w') {
-    println("w was pushed");
     forward();
   }
   else if (keyVal == 's') {
-    println("s was pushed");
     backward();
   }
   else if (keyVal == 'a') {
@@ -71,8 +70,10 @@ void keyReleased() {
   if (key == 'w' || key == 'W') {
     //speed += 1;
     //speedLabel.setText("Current Speed: " + speed);
+    forward();
   }
   else if (key == 's' || key == 'S') {
+    backward();
     //speed -= 1;
     //speedLabel.setText("Current Speed: " + speed);
   }
