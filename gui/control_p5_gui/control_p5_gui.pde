@@ -4,9 +4,11 @@ import processing.serial.*;
 Serial myPort;
 String val;
 ControlP5 cp5;
-String speedText = "0";
+String speedText = "LO";
+String motorState = "OFF";
 int speed = 0;
 Textlabel speedLabel;
+Textlabel motorLabel;
 Button forwardButton;
 Button backButton;
 Button leftButton;
@@ -15,7 +17,8 @@ Button rightButton;
 
 void setup() {
   // Establish Bluetooth connection
-  String portName = Serial.list()[3];
+  String portName = Serial.list()[4];
+  println("PORT NAME: " + portName);
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n');
   
@@ -23,9 +26,15 @@ void setup() {
   size(300, 400);
   cp5 = new ControlP5(this);
   speedLabel = cp5.addTextlabel("speedDisplay")
-                  .setPosition(100, 50)
+                  .setPosition(100, 30)
                   .setSize(200,40)
-                  .setText("Current Speed: " + speed)
+                  .setText("Current Speed: " + speedText)
+                  .setColor(color(255,0,0));
+   
+  motorLabel = cp5.addTextlabel("motorLabel")
+                  .setPosition(100, 50)
+                  .setSize(200, 40)
+                  .setText("Motor is currently " + motorState)
                   .setColor(color(255,0,0));
   
   forwardButton = cp5.addButton("forward")
@@ -61,21 +70,6 @@ void draw() {
   
 }
 
-void processKeyPress(char keyVal) {
-  if (keyVal == 'w') {
-    forward();
-  }
-  else if (keyVal == 's') {
-    backward();
-  }
-  else if (keyVal == 'a') {
-    println("a was pushed");
-  }
-  else if (keyVal == 'd') {
-    println("d was pushed");
-  }
-}
-
 void keyReleased() {
   if (key == 'w' || key == 'W') {
     forward();
@@ -89,17 +83,34 @@ void keyReleased() {
   else if (key == 'd' || key == 'D') {
     right();
   }
+  if (key == ' ') {
+    myPort.write(key);
+    if (motorState == "OFF") {
+      motorState = "ON";
+      motorLabel.setText("Motor is currently " + motorState);
+    }
+    else if (motorState == "ON") {
+      motorState = "OFF";
+      motorLabel.setText("Motor is currently " + motorState);
+    }
+  }
 }
 
 void forward() {
-  speed += 1;
-  speedLabel.setText("Current Speed: " + speed);
+  //speed += 1;
+  if (speedText == "LO") {
+    speedText = "HI";
+  }
+  speedLabel.setText("Current Speed: " + speedText);
   myPort.write(key);
 }
 
 void backward() {
-  speed -= 1;
-  speedLabel.setText("Current Speed: " + speed);
+  //speed -= 1;
+  if (speedText == "HI") {
+    speedText = "LO";
+  }
+  speedLabel.setText("Current Speed: " + speedText);
   myPort.write(key);
 }
 
