@@ -58,10 +58,10 @@ void setup() {
                    .setPosition(100, 280)
                    .setSize(100, 50);
   
-  //startStopButton = cp5.addButton("start/stop")
-  //                     .setCaptionLabel("Start / Stop: SPACE")
-  //                     .setPosition(75, 350)
-  //                     .setSize(150, 30);
+  startStopButton = cp5.addButton("start/stop")
+                       .setCaptionLabel("Start / Stop: SPACE")
+                       .setPosition(75, 350)
+                       .setSize(150, 30);
 }
 
 void draw() {
@@ -103,20 +103,20 @@ void keyReleased() {
 }
 
 void forward() {
-  //speed += 1;
+  speed += 1;
   if (speedText == "LO") {
     speedText = "HI";
   }
-  speedLabel.setText("Current Speed: " + speedText);
+  speedLabel.setText("Current Speed: " + speed);
   myPort.write(key);
 }
 
 void backward() {
-  //speed -= 1;
+  speed -= 1;
   if (speedText == "HI") {
     speedText = "LO";
   }
-  speedLabel.setText("Current Speed: " + speedText);
+  speedLabel.setText("Current Speed: " + speed);
   myPort.write(key);
 }
 
