@@ -13,12 +13,13 @@ Button forwardButton;
 Button backButton;
 Button leftButton;
 Button rightButton;
+Button startStopButton;
 
 
 void setup() {
   // Establish Bluetooth connection
-  String portName = Serial.list()[4];
-  println("PORT NAME: " + portName);
+  String portName = Serial.list()[0];
+  //println("PORT NAME: " + portName);
   myPort = new Serial(this, portName, 9600);
   myPort.bufferUntil('\n');
   
@@ -56,6 +57,11 @@ void setup() {
                    .setCaptionLabel("Right: D")
                    .setPosition(100, 280)
                    .setSize(100, 50);
+  
+  //startStopButton = cp5.addButton("start/stop")
+  //                     .setCaptionLabel("Start / Stop: SPACE")
+  //                     .setPosition(75, 350)
+  //                     .setSize(150, 30);
 }
 
 void draw() {
