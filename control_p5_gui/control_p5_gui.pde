@@ -26,6 +26,7 @@ void setup() {
   // Set up gui
   size(300, 400);
   cp5 = new ControlP5(this);
+  // Specify location and size of all app components (labels, buttons, etc.)
   speedLabel = cp5.addTextlabel("speedDisplay")
                   .setPosition(100, 30)
                   .setSize(200,40)
@@ -64,10 +65,11 @@ void setup() {
                        .setSize(150, 30);
 }
 
-void draw() {
+void draw() { // draw function loops while app is running.
   // Redraw background so label updates will work
   background(150, 0, 150);
   
+  // val will store value of user input
   val = myPort.readStringUntil('\n');
   if (val != null) {
     val = trim(val);
@@ -76,7 +78,7 @@ void draw() {
   
 }
 
-void keyReleased() {
+void keyReleased() { // Process user input whenever a button is released
   if (key == 'w' || key == 'W') {
     forward();
   }
@@ -102,13 +104,16 @@ void keyReleased() {
   }
 }
 
+// Functions for all car directional functionality
+// These functions update UI accordingly, and send the input signal over the Bluetooth connection
+// to the microprocessor using myPort.write()
 void forward() {
   speed += 1;
   if (speedText == "LO") {
     speedText = "HI";
   }
   speedLabel.setText("Current Speed: " + speed);
-  myPort.write(key);
+  myPort.write(key); 
 }
 
 void backward() {
