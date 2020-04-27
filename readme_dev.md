@@ -1,5 +1,5 @@
 ## Developer README   
-This app was developed using the Processing3 framework for the frontend UI, and the Arduino programming langauage for the back-end logic implemented on the the microprocessor.
+This app was developed using the Processing3 framework for the frontend UI, and the Arduino programming langauage for the back-end logic implemented on the the microprocessor. The frontend UI code is located in the `control_p5_gui` directory. The code for the backend logic is located in the `arduino` directory.
 
 ### Wireless Connection
 Our frontend (Processing3 gui) communicates with our backend (Arduino) via a wireless Bluetooth connection. To connect these two components, we use the Serial library, which functions with both the Processing3 framework and the Arduino programming language.
